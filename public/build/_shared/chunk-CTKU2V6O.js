@@ -2896,6 +2896,13 @@ function useOutlet(context) {
   }
   return outlet;
 }
+function useParams() {
+  let {
+    matches
+  } = React.useContext(RouteContext);
+  let routeMatch = matches[matches.length - 1];
+  return routeMatch ? routeMatch.params : {};
+}
 function useResolvedPath(to, _temp2) {
   let {
     relative
@@ -5973,6 +5980,7 @@ function ScrollRestoration2({
 
 export {
   useNavigate,
+  useParams,
   useNavigation,
   Outlet,
   Form,
@@ -5982,6 +5990,7 @@ export {
   Links,
   Meta,
   Scripts,
+  useMatches2 as useMatches,
   useLoaderData2 as useLoaderData,
   LiveReload,
   RemixBrowser,
@@ -6193,4 +6202,4 @@ react-router-dom/dist/index.js:
    * @license MIT
    *)
 */
-//# sourceMappingURL=/build/_shared/chunk-UTT73MNX.js.map
+//# sourceMappingURL=/build/_shared/chunk-CTKU2V6O.js.map

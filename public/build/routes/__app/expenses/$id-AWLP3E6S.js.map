@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../app/routes/__app/expenses/$id.jsx"],
-  "sourcesContent": ["// /expenses/<some-id> => /expenses/expense-1, /expenses/e-1\n\nimport { redirect } from \"@remix-run/node\";\nimport { useNavigate } from \"@remix-run/react\";\n\nimport ExpenseForm from \"~/components/expenses/ExpenseForm\";\nimport Modal from \"~/components/util/Modal\";\nimport { getExpense } from \"~/data/expense.server\";\n\nexport default function UpdateExpensesPage() {\n  const navigate = useNavigate();\n\n  function closeHandler() {\n    // navigate programmatically\n    navigate(\"..\");\n  }\n\n  return (\n    <Modal onClose={closeHandler}>\n      <ExpenseForm />\n    </Modal>\n  );\n}\n\nexport async function loader({ params }) {\n  const expenseId = params.id;\n  const expense = await getExpense(expenseId);\n  return expense;\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;AAEA,kBAAyB;AAKzB,qBAA2B;AAYrB;AAVS,SAAR,qBAAsC;AAC3C,QAAM,WAAW,YAAY;AAE7B,WAAS,eAAe;AAEtB,aAAS,IAAI;AAAA,EACf;AAEA,SACE,mDAAC,iBAAM,SAAS,cACd,6DAAC,yBAAD;AAAA;AAAA;AAAA;AAAA,SAAa,KADf;AAAA;AAAA;AAAA;AAAA,SAEA;AAEJ;",
-  "names": []
-}

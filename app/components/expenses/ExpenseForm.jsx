@@ -1,12 +1,17 @@
-import { Form, Link, useLoaderData, useNavigation, useParams } from "@remix-run/react";
+import { Form, Link, useLoaderData, useMatches, useNavigation, useParams } from "@remix-run/react";
 
 function ExpenseForm() {
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
   const navigation = useNavigation();
+  const params = useParams();
+
+  const matches = useMatches();
+  const expensesData = matches.find((match) => match.id === "routes/__app/expenses").data;
+  const expenseData = expensesData.find((expense) => expense.id === params.id);
 
   const isSubmitting = navigation.state !== "idle";
 
-  const expenseData = useLoaderData();
+  // const expenseData = useLoaderData();
 
   const defaultValues = expenseData
     ? {

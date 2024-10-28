@@ -9,7 +9,7 @@ import {
   Link,
   Outlet,
   useLoaderData
-} from "/build/_shared/chunk-UTT73MNX.js";
+} from "/build/_shared/chunk-CTKU2V6O.js";
 import {
   require_jsx_dev_runtime
 } from "/build/_shared/chunk-S4ZNHW4H.js";
@@ -165,4 +165,4 @@ function ExpensesLayout() {
 export {
   ExpensesLayout as default
 };
-//# sourceMappingURL=/build/routes/__app/expenses-CQIDBZBB.js.map
+//# sourceMappingURL=/build/routes/__app/expenses-KDHS6WFM.js.map

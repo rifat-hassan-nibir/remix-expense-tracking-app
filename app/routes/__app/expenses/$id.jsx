@@ -5,7 +5,7 @@ import { useNavigate } from "@remix-run/react";
 
 import ExpenseForm from "~/components/expenses/ExpenseForm";
 import Modal from "~/components/util/Modal";
-import { getExpense } from "~/data/expense.server";
+import { getExpense, updateExpense } from "~/data/expense.server";
 
 export default function UpdateExpensesPage() {
   const navigate = useNavigate();
@@ -26,4 +26,13 @@ export async function loader({ params }) {
   const expenseId = params.id;
   const expense = await getExpense(expenseId);
   return expense;
+}
+
+export async function action({ params, request }) {
+  const expenseId = params.id;
+  const formData = await request.formData();
+  const updatedExpenseData = Object.fromEntries(formData);
+
+  await updateExpense(expenseId, updatedExpenseData);
+  return redirect("/expenses");
 }

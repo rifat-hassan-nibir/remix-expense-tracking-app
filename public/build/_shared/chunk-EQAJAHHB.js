@@ -1,9 +1,10 @@
 import {
   Form,
   Link,
-  useLoaderData,
-  useNavigation
-} from "/build/_shared/chunk-UTT73MNX.js";
+  useMatches,
+  useNavigation,
+  useParams
+} from "/build/_shared/chunk-CTKU2V6O.js";
 import {
   require_jsx_dev_runtime
 } from "/build/_shared/chunk-S4ZNHW4H.js";
@@ -24,8 +25,11 @@ var import_jsx_dev_runtime = __toESM(require_jsx_dev_runtime());
 function ExpenseForm() {
   const today = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
   const navigation = useNavigation();
+  const params = useParams();
+  const matches = useMatches();
+  const expensesData = matches.find((match) => match.id === "routes/__app/expenses").data;
+  const expenseData = expensesData.find((expense) => expense.id === params.id);
   const isSubmitting = navigation.state !== "idle";
-  const expenseData = useLoaderData();
   const defaultValues = expenseData ? {
     title: expenseData.title,
     amount: expenseData.amount,
@@ -39,40 +43,40 @@ function ExpenseForm() {
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", { children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", { htmlFor: "title", children: "Expense Title" }, void 0, false, {
         fileName: "app/components/expenses/ExpenseForm.jsx",
-        lineNumber: 26,
+        lineNumber: 31,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", { type: "text", defaultValue: defaultValues.title, id: "title", name: "title", required: true, maxLength: 30 }, void 0, false, {
         fileName: "app/components/expenses/ExpenseForm.jsx",
-        lineNumber: 27,
+        lineNumber: 32,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/expenses/ExpenseForm.jsx",
-      lineNumber: 25,
+      lineNumber: 30,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { className: "form-row", children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", { children: [
         /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", { htmlFor: "amount", children: "Amount" }, void 0, false, {
           fileName: "app/components/expenses/ExpenseForm.jsx",
-          lineNumber: 32,
+          lineNumber: 37,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", { type: "number", defaultValue: defaultValues.amount, id: "amount", name: "amount", min: "0", step: "0.01", required: true }, void 0, false, {
           fileName: "app/components/expenses/ExpenseForm.jsx",
-          lineNumber: 33,
+          lineNumber: 38,
           columnNumber: 11
         }, this)
       ] }, void 0, true, {
         fileName: "app/components/expenses/ExpenseForm.jsx",
-        lineNumber: 31,
+        lineNumber: 36,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", { children: [
         /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", { htmlFor: "date", children: "Date" }, void 0, false, {
           fileName: "app/components/expenses/ExpenseForm.jsx",
-          lineNumber: 36,
+          lineNumber: 41,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(
@@ -89,40 +93,40 @@ function ExpenseForm() {
           false,
           {
             fileName: "app/components/expenses/ExpenseForm.jsx",
-            lineNumber: 37,
+            lineNumber: 42,
             columnNumber: 11
           },
           this
         )
       ] }, void 0, true, {
         fileName: "app/components/expenses/ExpenseForm.jsx",
-        lineNumber: 35,
+        lineNumber: 40,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/expenses/ExpenseForm.jsx",
-      lineNumber: 30,
+      lineNumber: 35,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { className: "form-actions", children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", { disabled: isSubmitting, children: isSubmitting ? "Submitting" : "Save Expense" }, void 0, false, {
         fileName: "app/components/expenses/ExpenseForm.jsx",
-        lineNumber: 48,
+        lineNumber: 53,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, { to: "..", children: "Cancel" }, void 0, false, {
         fileName: "app/components/expenses/ExpenseForm.jsx",
-        lineNumber: 49,
+        lineNumber: 54,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/expenses/ExpenseForm.jsx",
-      lineNumber: 47,
+      lineNumber: 52,
       columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "app/components/expenses/ExpenseForm.jsx",
-    lineNumber: 24,
+    lineNumber: 29,
     columnNumber: 5
   }, this);
 }
@@ -160,4 +164,4 @@ export {
   ExpenseForm_default,
   Modal_default
 };
-//# sourceMappingURL=/build/_shared/chunk-3DW4BF3A.js.map
+//# sourceMappingURL=/build/_shared/chunk-EQAJAHHB.js.map
