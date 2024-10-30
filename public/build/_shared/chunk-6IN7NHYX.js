@@ -3894,6 +3894,35 @@ function useSubmit() {
     });
   }, [router2, basename, currentRouteId]);
 }
+function useSubmitFetcher(fetcherKey, fetcherRouteId) {
+  let {
+    router: router2
+  } = useDataRouterContext2(DataRouterHook2.UseSubmitFetcher);
+  let {
+    basename
+  } = React2.useContext(NavigationContext);
+  return React2.useCallback(function(target, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    validateClientSideSubmission();
+    let {
+      action,
+      method,
+      encType,
+      formData,
+      body
+    } = getFormSubmissionInfo(target, basename);
+    !(fetcherRouteId != null) ? true ? invariant(false, "No routeId available for useFetcher()") : invariant(false) : void 0;
+    router2.fetch(fetcherKey, fetcherRouteId, options.action || action, {
+      preventScrollReset: options.preventScrollReset,
+      formData,
+      body,
+      formMethod: options.method || method,
+      formEncType: options.encType || encType
+    });
+  }, [router2, basename, fetcherKey, fetcherRouteId]);
+}
 function useFormAction(action, _temp2) {
   let {
     relative
@@ -3924,6 +3953,56 @@ function useFormAction(action, _temp2) {
     path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
   }
   return createPath(path);
+}
+function createFetcherForm(fetcherKey, routeId) {
+  let FetcherForm = /* @__PURE__ */ React2.forwardRef((props, ref) => {
+    let submit = useSubmitFetcher(fetcherKey, routeId);
+    return /* @__PURE__ */ React2.createElement(FormImpl, _extends3({}, props, {
+      ref,
+      submit
+    }));
+  });
+  if (true) {
+    FetcherForm.displayName = "fetcher.Form";
+  }
+  return FetcherForm;
+}
+function useFetcher() {
+  var _route$matches;
+  let {
+    router: router2
+  } = useDataRouterContext2(DataRouterHook2.UseFetcher);
+  let route = React2.useContext(RouteContext);
+  !route ? true ? invariant(false, "useFetcher must be used inside a RouteContext") : invariant(false) : void 0;
+  let routeId = (_route$matches = route.matches[route.matches.length - 1]) == null ? void 0 : _route$matches.route.id;
+  !(routeId != null) ? true ? invariant(false, 'useFetcher can only be used on routes that contain a unique "id"') : invariant(false) : void 0;
+  let [fetcherKey] = React2.useState(() => String(++fetcherId));
+  let [Form2] = React2.useState(() => {
+    !routeId ? true ? invariant(false, "No routeId available for fetcher.Form()") : invariant(false) : void 0;
+    return createFetcherForm(fetcherKey, routeId);
+  });
+  let [load] = React2.useState(() => (href) => {
+    !router2 ? true ? invariant(false, "No router available for fetcher.load()") : invariant(false) : void 0;
+    !routeId ? true ? invariant(false, "No routeId available for fetcher.load()") : invariant(false) : void 0;
+    router2.fetch(fetcherKey, routeId, href);
+  });
+  let submit = useSubmitFetcher(fetcherKey, routeId);
+  let fetcher = router2.getFetcher(fetcherKey);
+  let fetcherWithComponents = React2.useMemo(() => _extends3({
+    Form: Form2,
+    submit,
+    load
+  }, fetcher), [fetcher, Form2, submit, load]);
+  React2.useEffect(() => {
+    return () => {
+      if (!router2) {
+        console.warn("No router available to clean up from useFetcher()");
+        return;
+      }
+      router2.deleteFetcher(fetcherKey);
+    };
+  }, [router2, fetcherKey]);
+  return fetcherWithComponents;
 }
 function useScrollRestoration(_temp3) {
   let {
@@ -4014,7 +4093,7 @@ function usePageHide(callback, options) {
     };
   }, [callback, capture]);
 }
-var React2, defaultMethod, defaultEncType, _formDataSupportsSubmitter, supportedFormEncTypes, _excluded, _excluded2, _excluded3, START_TRANSITION2, startTransitionImpl2, isBrowser, ABSOLUTE_URL_REGEX2, Link, NavLink, Form, FormImpl, DataRouterHook2, DataRouterStateHook2, SCROLL_RESTORATION_STORAGE_KEY, savedScrollPositions;
+var React2, defaultMethod, defaultEncType, _formDataSupportsSubmitter, supportedFormEncTypes, _excluded, _excluded2, _excluded3, START_TRANSITION2, startTransitionImpl2, isBrowser, ABSOLUTE_URL_REGEX2, Link, NavLink, Form, FormImpl, DataRouterHook2, DataRouterStateHook2, fetcherId, SCROLL_RESTORATION_STORAGE_KEY, savedScrollPositions;
 var init_dist2 = __esm({
   "node_modules/react-router-dom/dist/index.js"() {
     React2 = __toESM(require_react());
@@ -4218,6 +4297,7 @@ var init_dist2 = __esm({
       DataRouterStateHook3["UseFetchers"] = "useFetchers";
       DataRouterStateHook3["UseScrollRestoration"] = "useScrollRestoration";
     })(DataRouterStateHook2 || (DataRouterStateHook2 = {}));
+    fetcherId = 0;
     SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
     savedScrollPositions = {};
   }
@@ -4616,6 +4696,20 @@ function createHtml(html) {
   };
 }
 
+// node_modules/@remix-run/react/dist/esm/transition.js
+var IDLE_FETCHER2 = {
+  state: "idle",
+  type: "init",
+  data: void 0,
+  formMethod: void 0,
+  formAction: void 0,
+  formEncType: void 0,
+  formData: void 0,
+  json: void 0,
+  text: void 0,
+  submission: void 0
+};
+
 // node_modules/@remix-run/react/dist/esm/warnings.js
 var alreadyWarned2 = {};
 function logDeprecationOnce(message, key = message) {
@@ -4812,6 +4906,8 @@ function composeEventHandlers(theirHandler, ourHandler) {
   };
 }
 var linksWarning = "\u26A0\uFE0F REMIX FUTURE CHANGE: The behavior of links `imagesizes` and `imagesrcset` will be changing in v2. Only the React camel case versions will be valid. Please change to `imageSizes` and `imageSrcSet`. For instructions on making this change see https://remix.run/docs/en/v1.15.0/pages/v2#links-imagesizes-and-imagesrcset";
+var fetcherTypeWarning = "\u26A0\uFE0F REMIX FUTURE CHANGE: `fetcher.type` will be removed in v2. Please use `fetcher.state`, `fetcher.formData`, and `fetcher.data` to achieve the same UX. For instructions on making this change see https://remix.run/docs/en/v1.15.0/pages/v2#usefetcher";
+var fetcherSubmissionWarning = "\u26A0\uFE0F REMIX FUTURE CHANGE : `fetcher.submission` will be removed in v2. The submission fields are now part of the fetcher object itself (`fetcher.formData`). For instructions on making this change see https://remix.run/docs/en/v1.15.0/pages/v2#usefetcher";
 function Links() {
   let {
     manifest,
@@ -5342,6 +5438,220 @@ function useMatches2() {
 }
 function useLoaderData2() {
   return useLoaderData();
+}
+function useFetcher2() {
+  let fetcherRR = useFetcher();
+  return React3.useMemo(() => {
+    let remixFetcher = convertRouterFetcherToRemixFetcher({
+      state: fetcherRR.state,
+      data: fetcherRR.data,
+      formMethod: fetcherRR.formMethod,
+      formAction: fetcherRR.formAction,
+      formEncType: fetcherRR.formEncType,
+      formData: fetcherRR.formData,
+      json: fetcherRR.json,
+      text: fetcherRR.text,
+      " _hasFetcherDoneAnything ": fetcherRR[" _hasFetcherDoneAnything "]
+    });
+    let fetcherWithComponents = {
+      ...remixFetcher,
+      load: fetcherRR.load,
+      submit: fetcherRR.submit,
+      Form: fetcherRR.Form
+    };
+    addFetcherDeprecationWarnings(fetcherWithComponents);
+    return fetcherWithComponents;
+  }, [fetcherRR]);
+}
+function addFetcherDeprecationWarnings(fetcher) {
+  let type = fetcher.type;
+  Object.defineProperty(fetcher, "type", {
+    get() {
+      logDeprecationOnce(fetcherTypeWarning);
+      return type;
+    },
+    set(value) {
+      type = value;
+    },
+    // These settings should make this behave like a normal object `type` field
+    configurable: true,
+    enumerable: true
+  });
+  let submission = fetcher.submission;
+  Object.defineProperty(fetcher, "submission", {
+    get() {
+      logDeprecationOnce(fetcherSubmissionWarning);
+      return submission;
+    },
+    set(value) {
+      submission = value;
+    },
+    // These settings should make this behave like a normal object `type` field
+    configurable: true,
+    enumerable: true
+  });
+}
+function convertRouterFetcherToRemixFetcher(fetcherRR) {
+  let {
+    state,
+    formMethod,
+    formAction,
+    formEncType,
+    formData,
+    json: json2,
+    text,
+    data
+  } = fetcherRR;
+  let isActionSubmission = formMethod != null && ["POST", "PUT", "PATCH", "DELETE"].includes(formMethod.toUpperCase());
+  if (state === "idle") {
+    if (fetcherRR[" _hasFetcherDoneAnything "] === true) {
+      let fetcher2 = {
+        state: "idle",
+        type: "done",
+        formMethod: void 0,
+        formAction: void 0,
+        formEncType: void 0,
+        formData: void 0,
+        json: void 0,
+        text: void 0,
+        submission: void 0,
+        data
+      };
+      return fetcher2;
+    } else {
+      let fetcher2 = IDLE_FETCHER2;
+      return fetcher2;
+    }
+  }
+  if (state === "submitting" && formMethod && formAction && formEncType && (formData || json2 !== void 0 || text !== void 0)) {
+    if (isActionSubmission) {
+      let fetcher2 = {
+        state,
+        type: "actionSubmission",
+        formMethod: formMethod.toUpperCase(),
+        formAction,
+        formEncType,
+        formData,
+        json: json2,
+        text,
+        // @ts-expect-error formData/json/text are mutually exclusive in the type,
+        // so TS can't be sure these meet that criteria, but as a straight
+        // assignment from the RR fetcher we know they will
+        submission: {
+          method: formMethod.toUpperCase(),
+          action: formAction,
+          encType: formEncType,
+          formData,
+          json: json2,
+          text,
+          key: ""
+        },
+        data
+      };
+      return fetcher2;
+    } else {
+      invariant2(false, "Encountered an unexpected fetcher scenario in useFetcher()");
+    }
+  }
+  if (state === "loading") {
+    if (formMethod && formAction && formEncType) {
+      if (isActionSubmission) {
+        if (data) {
+          let fetcher2 = {
+            state,
+            type: "actionReload",
+            formMethod: formMethod.toUpperCase(),
+            formAction,
+            formEncType,
+            formData,
+            json: json2,
+            text,
+            // @ts-expect-error formData/json/text are mutually exclusive in the type,
+            // so TS can't be sure these meet that criteria, but as a straight
+            // assignment from the RR fetcher we know they will
+            submission: {
+              method: formMethod.toUpperCase(),
+              action: formAction,
+              encType: formEncType,
+              formData,
+              json: json2,
+              text,
+              key: ""
+            },
+            data
+          };
+          return fetcher2;
+        } else {
+          let fetcher2 = {
+            state,
+            type: "actionRedirect",
+            formMethod: formMethod.toUpperCase(),
+            formAction,
+            formEncType,
+            formData,
+            json: json2,
+            text,
+            // @ts-expect-error formData/json/text are mutually exclusive in the type,
+            // so TS can't be sure these meet that criteria, but as a straight
+            // assignment from the RR fetcher we know they will
+            submission: {
+              method: formMethod.toUpperCase(),
+              action: formAction,
+              encType: formEncType,
+              formData,
+              json: json2,
+              text,
+              key: ""
+            },
+            data: void 0
+          };
+          return fetcher2;
+        }
+      } else {
+        let url = new URL(formAction, window.location.origin);
+        if (formData) {
+          url.search = new URLSearchParams(formData.entries()).toString();
+        }
+        let fetcher2 = {
+          state: "submitting",
+          type: "loaderSubmission",
+          formMethod: formMethod.toUpperCase(),
+          formAction,
+          formEncType,
+          formData,
+          json: json2,
+          text,
+          // @ts-expect-error formData/json/text are mutually exclusive in the type,
+          // so TS can't be sure these meet that criteria, but as a straight
+          // assignment from the RR fetcher we know they will
+          submission: {
+            method: formMethod.toUpperCase(),
+            action: url.pathname + url.search,
+            encType: formEncType,
+            formData,
+            json: json2,
+            text,
+            key: ""
+          },
+          data
+        };
+        return fetcher2;
+      }
+    }
+  }
+  let fetcher = {
+    state: "loading",
+    type: "normalLoad",
+    formMethod: void 0,
+    formAction: void 0,
+    formData: void 0,
+    json: void 0,
+    text: void 0,
+    formEncType: void 0,
+    submission: void 0,
+    data
+  };
+  return fetcher;
 }
 var LiveReload = false ? () => null : function LiveReload2({
   port,
@@ -5992,6 +6302,7 @@ export {
   Scripts,
   useMatches2 as useMatches,
   useLoaderData2 as useLoaderData,
+  useFetcher2 as useFetcher,
   LiveReload,
   RemixBrowser,
   ScrollRestoration2 as ScrollRestoration
@@ -6106,6 +6417,18 @@ react-router-dom/dist/index.js:
    * @license MIT
    *)
 
+@remix-run/react/dist/esm/transition.js:
+  (**
+   * @remix-run/react v1.19.3
+   *
+   * Copyright (c) Remix Software Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.md file in the root directory of this source tree.
+   *
+   * @license MIT
+   *)
+
 @remix-run/react/dist/esm/warnings.js:
   (**
    * @remix-run/react v1.19.3
@@ -6202,4 +6525,4 @@ react-router-dom/dist/index.js:
    * @license MIT
    *)
 */
-//# sourceMappingURL=/build/_shared/chunk-CTKU2V6O.js.map
+//# sourceMappingURL=/build/_shared/chunk-6IN7NHYX.js.map

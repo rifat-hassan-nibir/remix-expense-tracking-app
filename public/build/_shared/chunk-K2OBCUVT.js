@@ -4,7 +4,7 @@ import {
   useMatches,
   useNavigation,
   useParams
-} from "/build/_shared/chunk-CTKU2V6O.js";
+} from "/build/_shared/chunk-6IN7NHYX.js";
 import {
   require_jsx_dev_runtime
 } from "/build/_shared/chunk-S4ZNHW4H.js";
@@ -39,7 +39,7 @@ function ExpenseForm() {
     amount: "",
     date: ""
   };
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Form, { method: "post", className: "form", id: "expense-form", children: [
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Form, { method: expenseData ? "patch" : "post", className: "form", id: "expense-form", children: [
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", { children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", { htmlFor: "title", children: "Expense Title" }, void 0, false, {
         fileName: "app/components/expenses/ExpenseForm.jsx",
@@ -164,4 +164,4 @@ export {
   ExpenseForm_default,
   Modal_default
 };
-//# sourceMappingURL=/build/_shared/chunk-EQAJAHHB.js.map
+//# sourceMappingURL=/build/_shared/chunk-K2OBCUVT.js.map

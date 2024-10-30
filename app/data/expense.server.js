@@ -41,6 +41,7 @@ export async function getExpense(id) {
   }
 }
 
+// UPDATE EXPENSE DATA
 export async function updateExpense(id, expenseData) {
   try {
     return prisma.expense.update({
@@ -53,5 +54,16 @@ export async function updateExpense(id, expenseData) {
     });
   } catch (error) {
     console.log(error);
+  }
+}
+
+// DELETE EXPENSE DATA FROM DB
+export async function deleteExpense(id) {
+  try {
+    return prisma.expense.delete({
+      where: { id },
+    });
+  } catch (error) {
+    throw error;
   }
 }

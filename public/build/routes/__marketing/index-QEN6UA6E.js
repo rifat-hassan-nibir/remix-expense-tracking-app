@@ -5,7 +5,7 @@ import {
 } from "/build/_shared/chunk-MTBYHSGM.js";
 import {
   Link
-} from "/build/_shared/chunk-CTKU2V6O.js";
+} from "/build/_shared/chunk-6IN7NHYX.js";
 import {
   require_jsx_dev_runtime
 } from "/build/_shared/chunk-S4ZNHW4H.js";
@@ -139,4 +139,4 @@ export {
   Index as default,
   meta
 };
-//# sourceMappingURL=/build/routes/__marketing/index-TA6PMC4E.js.map
+//# sourceMappingURL=/build/routes/__marketing/index-QEN6UA6E.js.map

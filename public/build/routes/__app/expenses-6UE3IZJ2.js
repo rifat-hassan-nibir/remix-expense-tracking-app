@@ -8,8 +8,9 @@ import {
 import {
   Link,
   Outlet,
+  useFetcher,
   useLoaderData
-} from "/build/_shared/chunk-CTKU2V6O.js";
+} from "/build/_shared/chunk-6IN7NHYX.js";
 import {
   require_jsx_dev_runtime
 } from "/build/_shared/chunk-S4ZNHW4H.js";
@@ -20,13 +21,33 @@ import {
 // app/components/expenses/ExpenseListItem.jsx
 var import_jsx_dev_runtime = __toESM(require_jsx_dev_runtime());
 function ExpenseListItem({ id, title, amount }) {
+  const fetcher = useFetcher();
   function deleteExpenseItemHandler() {
+    const proceed = confirm("Do you want to delete the expense?");
+    if (!proceed) {
+      return;
+    }
+    fetcher.submit(null, {
+      method: "delete",
+      action: `/expenses/${id}`
+    });
+  }
+  if (fetcher.state !== "idle") {
+    return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("article", { className: "expense-item locked", children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", { children: "Deleting" }, void 0, false, {
+      fileName: "app/components/expenses/ExpenseListItem.jsx",
+      lineNumber: 22,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "app/components/expenses/ExpenseListItem.jsx",
+      lineNumber: 21,
+      columnNumber: 7
+    }, this);
   }
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("article", { className: "expense-item", children: [
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", { className: "expense-title", children: title }, void 0, false, {
         fileName: "app/components/expenses/ExpenseListItem.jsx",
-        lineNumber: 11,
+        lineNumber: 29,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", { className: "expense-amount", children: [
@@ -34,33 +55,33 @@ function ExpenseListItem({ id, title, amount }) {
         amount.toFixed(2)
       ] }, void 0, true, {
         fileName: "app/components/expenses/ExpenseListItem.jsx",
-        lineNumber: 12,
+        lineNumber: 30,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/expenses/ExpenseListItem.jsx",
-      lineNumber: 10,
+      lineNumber: 28,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("menu", { className: "expense-actions", children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", { onClick: deleteExpenseItemHandler, children: "Delete" }, void 0, false, {
         fileName: "app/components/expenses/ExpenseListItem.jsx",
-        lineNumber: 15,
+        lineNumber: 33,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, { to: id, children: "Edit" }, void 0, false, {
         fileName: "app/components/expenses/ExpenseListItem.jsx",
-        lineNumber: 16,
+        lineNumber: 34,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "app/components/expenses/ExpenseListItem.jsx",
-      lineNumber: 14,
+      lineNumber: 32,
       columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "app/components/expenses/ExpenseListItem.jsx",
-    lineNumber: 9,
+    lineNumber: 27,
     columnNumber: 5
   }, this);
 }
@@ -165,4 +186,4 @@ function ExpensesLayout() {
 export {
   ExpensesLayout as default
 };
-//# sourceMappingURL=/build/routes/__app/expenses-KDHS6WFM.js.map
+//# sourceMappingURL=/build/routes/__app/expenses-6UE3IZJ2.js.map
