@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../app/routes/__app/expenses/add.jsx"],
-  "sourcesContent": ["// /expenses/add\n\nimport { redirect } from \"@remix-run/node\";\nimport { useNavigate } from \"@remix-run/react\";\n\nimport ExpenseForm from \"~/components/expenses/ExpenseForm\";\nimport Modal from \"~/components/util/Modal\";\nimport { addExpense } from \"~/data/expense.server\";\n\nexport default function AddExpensesPage() {\n  const navigate = useNavigate();\n\n  function closeHandler() {\n    // navigate programmatically\n    navigate(\"..\");\n  }\n\n  return (\n    <Modal onClose={closeHandler}>\n      <ExpenseForm />\n    </Modal>\n  );\n}\n\nexport async function action({ request }) {\n  const formData = await request.formData();\n  const expenseData = Object.fromEntries(formData);\n\n  await addExpense(expenseData);\n\n  return redirect(\"/expenses\");\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;AAEA,kBAAyB;AAKzB,qBAA2B;AAYrB;AAVS,SAAR,kBAAmC;AACxC,QAAM,WAAW,YAAY;AAE7B,WAAS,eAAe;AAEtB,aAAS,IAAI;AAAA,EACf;AAEA,SACE,mDAAC,iBAAM,SAAS,cACd,6DAAC,yBAAD;AAAA;AAAA;AAAA;AAAA,SAAa,KADf;AAAA;AAAA;AAAA;AAAA,SAEA;AAEJ;",
-  "names": []
-}
