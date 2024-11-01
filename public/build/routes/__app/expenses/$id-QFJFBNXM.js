@@ -36,4 +36,4 @@ function UpdateExpensesPage() {
 export {
   UpdateExpensesPage as default
 };
-//# sourceMappingURL=/build/routes/__app/expenses/$id-4XPHI2UG.js.map
+//# sourceMappingURL=/build/routes/__app/expenses/$id-QFJFBNXM.js.map
